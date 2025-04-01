@@ -1,0 +1,14 @@
+.app-container {
+  display: grid !important;
+  grid-template-columns: 3fr 9fr !important; /* เพิ่มความกว้างของ Sidebar */
+  height: 100vh !important;
+}
+
+.sidebar {
+  color: white !important;
+  height: 100vh !important;
+}
+
+.dashboard {
+  padding: 10px !important;
+}
