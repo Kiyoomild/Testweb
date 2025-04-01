@@ -12,8 +12,8 @@ const ChartHeatRadiation = () => {
   return (
     <Card sx={{ p: 2 }}>
       <CardContent>
-        <Typography variant="h6">Heat Radiation</Typography>
-        <ResponsiveContainer width="100%" height={200}>
+        <Typography variant="h6">Heat Radiation In Room</Typography>
+        <ResponsiveContainer width="100%" height={100}>
           <LineChart data={data}>
             <XAxis dataKey="wavelength" />
             <YAxis />
