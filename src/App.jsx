@@ -1,18 +1,33 @@
-import { Grid } from "@mui/material";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
+import Forecast from "./components/Forecast";
+import Notifications from "./components/Notifications";
+import Settings from "./components/Settings";
+import Help from "./components/Help";
+
 import "./App.css";
 
-function App() {
+const App = () => {
   return (
-    <Grid container className="app-container">
-      <Grid item className="sidebar">
+    <Router>
+      <div className="app-container">
+        {/* Sidebar */}
         <Sidebar />
-      </Grid>
-      <Grid item className="dashboard">
-        <Dashboard />
-      </Grid>
-    </Grid>
+
+        {/* Content Area */}
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/forecast" element={<Forecast />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/help" element={<Help />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
