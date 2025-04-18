@@ -1,10 +1,12 @@
 import React from "react";
 import WbSunnyIcon from "@mui/icons-material/WbSunny"; // ใช้ไอคอนจาก MUI แต่ยังคงใช้ในโค้ดนี้
+//import WbCloudyIcon from "@mui/icons-material/WbCloudy";
 
 const WeatherStatus = ({ status, suggestion }) => {
   return (
     <div style={styles.card}>
       <WbSunnyIcon style={styles.icon} />
+      { /*<WbCloudyIcon style={styles.icon} /> */}
       <div style={styles.content}>
         <h6 style={styles.status}>{status}</h6>
         <p style={styles.suggestion}>{suggestion}</p>

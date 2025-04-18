@@ -1,28 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardInfo from "./CardInfo";
 import ChartAirflow from "./ChartAirflow";
 import ChartHeatRadiation from "./ChartHeatRadiation";
 import WeatherStatus from "./WeatherStatus";
 
 const Dashboard = () => {
-  const [selectedDate, setSelectedDate] = useState(""); // เก็บวันที่ที่เลือก
+  const [selectedDate, setSelectedDate] = useState("");
 
-  const handleDateChange = (event) => {
-    setSelectedDate(event.target.value); // อัปเดตวันที่เมื่อผู้ใช้เลือก
-  };
+  // ตั้งค่าเริ่มต้นเป็นวันที่ปัจจุบันในรูปแบบ dd/mm/yy
+  useEffect(() => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, "0"); // ดึงวันที่และเติม 0 ด้านหน้า (ถ้าจำเป็น)
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // ดึงเดือน (เริ่มจาก 0) และเติม 0 ด้านหน้า
+    const year = String(today.getFullYear()); // ดึงปีแบบเต็ม (4 หลัก)
+    const formattedDate = `${day}/${month}/${year}`; // แปลงเป็นรูปแบบ dd/mm/yyyy
+    setSelectedDate(formattedDate);
+  }, []);
 
   return (
     <div style={styles.container}>
-      <h5 style={styles.header}>Dashboard</h5>
+      <div style={styles.header}>Dashboard</div>
       <div style={styles.dateContainer}>
-        <label htmlFor="date-picker" style={styles.dateLabel}>เลือกวันที่:</label>
-        <input
-          id="date-picker"
-          type="date"
-          value={selectedDate}
-          onChange={handleDateChange}
-          style={styles.dateInput}
-        />
+        <label htmlFor="date-display" style={styles.dateLabel}>วันที่:</label>
+        <span id="date-display" style={styles.dateText}>{selectedDate}</span> {/* แสดงวันที่ */}
       </div>
 
       <div style={styles.grid}>
@@ -32,24 +32,24 @@ const Dashboard = () => {
         </div>
 
         {/* Humidity Section */}
-          <div style={styles.gridItem}>
-            <CardInfo header="Humidity" title="Humidity" value="20%" description="ความชื้น: ต่ำมาก" />
-          </div>
+        <div style={styles.gridItem}>
+          <CardInfo header="Humidity" title="Humidity" value="20%" description="ความชื้น: ต่ำมาก" />
+        </div>
 
         {/* Status Section */}
-          <div style={styles.gridItem2}>
-            <WeatherStatus status="อากาศดีมาก" suggestion="ดื่มน้ำเยอะๆ" />
-          </div>
+        <div style={styles.gridItem2}>
+          <WeatherStatus status="อากาศดีมาก" suggestion="ดื่มน้ำเยอะๆ" />
+        </div>
 
         {/* Other Sections */}
-          <div style={styles.fullWidthItem}>
-            <ChartAirflow />
-          </div>
-          <div style={styles.fullWidthItem}>
-            <ChartHeatRadiation />
-          </div>
+        <div style={styles.fullWidthItem}>
+          <ChartAirflow />
+        </div>
+        <div style={styles.fullWidthItem}>
+          <ChartHeatRadiation />
         </div>
       </div>
+    </div>
   );
 };
 
@@ -57,7 +57,7 @@ const styles = {
   container: {
     padding: "24px",
     fontFamily: "Arial, sans-serif",
-    height: "calc(100vh - 50px)", // ลดความสูงของ Dashboard
+    height: "calc(100vh - 50px)",
     overflow: "auto",
   },
   header: {
@@ -72,16 +72,13 @@ const styles = {
     gap: "8px",
   },
   dateLabel: {
-    fontSize: "20px",
+    fontSize: "26px",
     color: "#000000",
   },
-  dateInput: {
-    fontSize: "16px",
-    padding: "4px 8px",
-    borderRadius: "4px",
-    outline: "none", // ลบกรอบเมื่อคลิก
-    backgroundColor: "#2d336b", // เพิ่มสีพื้นหลัง (ถ้าต้องการ)
-    color: "#f4f4f4", // กำหนดสีข้อความ
+  dateText: {
+    fontSize: "24px", // ขนาดตัวอักษรของวันที่
+    color: "#2D336B", // สีของข้อความวันที่
+    fontWeight: "bold",
   },
   grid: {
     display: "grid",
@@ -95,7 +92,7 @@ const styles = {
     borderRadius: "8px",
     padding: "16px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    color: "#000000", // เปลี่ยนสีฟอนต์
+    color: "#000000",
     fontSize: "25px",
   },
   gridItem2: {
