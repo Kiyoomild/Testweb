@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import CloudIcon from "@mui/icons-material/Cloud";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import SettingsIcon from "@mui/icons-material/Settings";
-import HelpIcon from "@mui/icons-material/Help";
-import { Margin } from "@mui/icons-material";
 
 const Sidebar = () => {
   const [selected, setSelected] = useState("Dashboard");
@@ -27,37 +21,38 @@ const Sidebar = () => {
           style={selected === "Dashboard" ? styles.selectedItem : styles.listItem}
           onClick={() => handleSelect("Dashboard", "/")}
         >
-          <DashboardIcon style={styles.icon} />
+          <img src="../src/images/home.png" style={styles.icon} />
           <span>Dashboard</span>
         </li>
+
         <li
           style={selected === "Forecast" ? styles.selectedItem : styles.listItem}
           onClick={() => handleSelect("Forecast", "/forecast")}
         >
-          <CloudIcon style={styles.icon} />
+          <img src="../src/images/chart-histogram.png" style={styles.icon} />
           <span>Forecast</span>
         </li>
+
         <li
           style={selected === "Notifications" ? styles.selectedItem : styles.listItem}
           onClick={() => handleSelect("Notifications", "/notifications")}
         >
-          <NotificationsIcon style={styles.icon} />
+          <img src="../src/images/bell.png" style={styles.icon} />
           <span>Notifications</span>
         </li>
+
       </ul>
       <ul style={styles.footerList}>
         <li
           style={selected === "Settings" ? styles.selectedItem : styles.listItem}
           onClick={() => handleSelect("Settings", "/settings")}
         >
-          <SettingsIcon style={styles.icon} />
           <span>Settings</span>
         </li>
         <li
           style={selected === "Help" ? styles.selectedItem : styles.listItem}
           onClick={() => handleSelect("Help", "/help")}
         >
-          <HelpIcon style={styles.icon} />
           <span>Help</span>
         </li>
       </ul>
@@ -79,10 +74,9 @@ const styles = {
   header: {
     display: "flex", // ใช้ Flexbox
     justifyContent: "center", // จัดให้อยู่ตรงกลางแนวนอน
-    alignItems: "center",
   },
   title: {
-    fontSize: '1.5rem',
+    fontSize: '24px',
     fontWeight: 'bold',
     textAlign: "center",
   },
@@ -113,11 +107,13 @@ const styles = {
     cursor: 'pointer',
     fontSize: '18px',
     backgroundColor: '#A9B5DF',
-    color: 'white',
+    color: '#fff',
   },
   icon: {
     marginRight: '15px',
-    fontSize: '30px',
+    fontSize: '20px', // สำหรับ Material-UI Icons (ถ้าใช้)
+    width: '24px', // กำหนดความกว้างของรูปภาพ
+    height: '24px',
   },
   footerList: {
     marginTop: 'auto',

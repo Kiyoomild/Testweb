@@ -25,28 +25,29 @@ const Dashboard = () => {
         <span id="date-display" style={styles.dateText}>{selectedDate}</span> {/* แสดงวันที่ */}
       </div>
 
-      <div style={styles.grid}>
-        {/* Temperature Section */}
-        <div style={styles.gridItem}>
-          <CardInfo header="Temperature" title="Temperature" value="30°" description="อุณหภูมิ: ปกติ" />
+      <div style={styles.cardContainer}>
+        <div style={styles.cardTem}>
+          <CardInfo
+            title="Classroom 05-0406"
+            value="29°C"
+            description="Normal"
+            description2="High: 35°C Low: 27°C"
+          />
         </div>
 
-        {/* Humidity Section */}
-        <div style={styles.gridItem}>
-          <CardInfo header="Humidity" title="Humidity" value="20%" description="ความชื้น: ต่ำมาก" />
-        </div>
-
-        {/* Status Section */}
-        <div style={styles.gridItem2}>
-          <WeatherStatus status="อากาศดีมาก" suggestion="ดื่มน้ำเยอะๆ" />
-        </div>
-
-        {/* Other Sections */}
-        <div style={styles.fullWidthItem}>
-          <ChartAirflow />
-        </div>
-        <div style={styles.fullWidthItem}>
-          <ChartHeatRadiation />
+        <div style={styles.rightSection}>
+          <div style={styles.cardIcon}>
+            <CardInfo image="../src/images/happy.png" />
+          </div>
+          <div style={styles.cardText}>
+            <CardInfo
+              icons={[
+                  { icon: "../src/images/raindrops.png", text: "79%" },
+                  { icon: "../src/images/wind.png", text: "9 km/hr" },
+                  { icon: "../src/images/sun.png", text: "Low" },
+                ]}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -80,37 +81,41 @@ const styles = {
     color: "#2D336B", // สีของข้อความวันที่
     fontWeight: "bold",
   },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-    gap: "16px",
+  cardContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: "40px", // ระยะห่างระหว่าง cardTem และ cardIcon
     marginTop: "16px",
-    marginBottom: "8px",
-  },
-  gridItem: {
-    backgroundColor: "#f8f9fa",
-    borderRadius: "8px",
+    backgroundColor: "skyblue",
     padding: "16px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    color: "#000000",
-    fontSize: "25px",
+    borderRadius: "30px",
+    width: "1010px",
+    height: "393px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
   },
-  gridItem2: {
-    backgroundColor: "#f8f9fa",
-    borderRadius: "8px",
-    padding: "16px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    color: "#000000",
-    fontSize: "25px",
+  cardTem: {
+    display: "flex",
+    marginLeft: "-65px", // ขยับเข้าอีกเล็กน้อย
   },
-  fullWidthItem: {
-    gridColumn: "span 3",
-    backgroundColor: "#f8f9fa",
-    borderRadius: "8px",
-    padding: "16px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    color: "#000000",
+  cardIcon: {
+    display: "flex",
   },
+  cardText: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "8px",
+  },
+  rightSection: {
+    display: "flex",
+    flexDirection: "column", // เรียง cardIcon และ cardText จากบนลงล่าง
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px", // ระยะห่างระหว่างรูปและ icons
+  },
+  
 };
 
 export default Dashboard;
