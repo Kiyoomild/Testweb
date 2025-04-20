@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { Card, CardContent, Typography } from "@mui/material";
+
 
 const ChartAirflow = () => {
   const [data, setData] = useState([]);
@@ -54,4 +54,3 @@ const ChartAirflow = () => {
 };
 
 export default ChartAirflow;
-

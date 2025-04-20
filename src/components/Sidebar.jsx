@@ -26,11 +26,11 @@ const Sidebar = () => {
         </li>
 
         <li
-          style={selected === "Forecast" ? styles.selectedItem : styles.listItem}
-          onClick={() => handleSelect("Forecast", "/forecast")}
+          style={selected === "History" ? styles.selectedItem : styles.listItem}
+          onClick={() => handleSelect("History", "/history")}
         >
-          <img src="../src/images/chart-histogram.png" style={styles.icon} />
-          <span>Forecast</span>
+          <img src="../src/images/clock.png" style={styles.icon} />
+          <span>History</span>
         </li>
 
         <li

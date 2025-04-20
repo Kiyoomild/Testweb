@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
-import Forecast from "./components/Forecast";
+import History from "./components/History";
 import Notifications from "./components/Notifications";
 import Settings from "./components/Settings";
 import Help from "./components/Help";
@@ -20,7 +20,7 @@ const App = () => {
         <div className="content">
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/forecast" element={<Forecast />} />
+            <Route path="/history" element={<History />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/help" element={<Help />} />

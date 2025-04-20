@@ -1,118 +1,161 @@
-import React, { useState } from "react";
-import CardInfo from "./CardInfo";
-import ChartAirflow from "./ChartAirflow";
-import ChartHeatRadiation from "./ChartHeatRadiation";
-import WeatherStatus from "./WeatherStatus";
+import React, { useEffect, useState } from "react";
 
+// ฟังก์ชันกำหนดสถานะจากอุณหภูมิ
+const getWeatherStatus = (temp) => {
+  if (temp < 23) return { status: "cold" };
+  if (temp <= 27) return { status: "warm" };
+  return { status: "hot" };
+};
+
+// สร้างข้อมูลทุก 10 นาที (7 ช่วง)
+const generateWeatherData = () => {
+  const data = [];
+  const now = new Date();
+
+  for (let i = 0; i < 170; i += 10) {
+    const time = new Date(now.getTime() + i * 60000);
+    const hour = time.getHours().toString().padStart(2, "0");
+    const minute = time.getMinutes().toString().padStart(2, "0");
+
+    const temp = Math.floor(Math.random() * 15) + 20; // 20-35
+    const { status } = getWeatherStatus(temp);
+
+    data.push({
+      time: `${hour}:${minute}`,
+      status,
+    });
+  }
+
+  return data;
+};
+
+// แผนที่สถานะ -> รูปภาพ
+const WeatherImage = ({ status }) => {
+  return (
+    <div style={styles.iconContainer}>
+      {status === "Hot" && (
+        <img src="../src/images/hot.png" alt="Hot" style={styles.icon} />
+      )}
+      {status === "Cold" && (
+        <img src="../src/images/cold.png" alt="Cold" style={styles.icon} />
+      )}
+      {status === "Warm" && (
+        <img src="../src/images/happy.png" alt="Warm" style={styles.icon} />
+      )}
+    </div>
+  );
+};
+
+// การ์ดแสดงผล
+const WeatherCard = ({ time, status, isSelected, onSelect  }) => {
+  const statusLabel = {
+    hot: "Hot",
+    cold: "Cold",
+    warm: "Warm",
+  };
+
+  // สร้าง imageMap เพื่อเชื่อมโยง status กับ path ของภาพ
+  const imageMap = {
+    hot: "../src/images/hot.png",  // ใช้พาธที่ถูกต้อง
+    cold: "../src/images/cold.png",
+    warm: "../src/images/happy.png",
+  };
+
+  return (
+    <div
+      style={{
+        ...styles.card,
+        backgroundColor: isSelected ? "#BDCCFF" : "#2D336B", // เปลี่ยนสีพื้นหลังเมื่อถูกเลือก
+        color: isSelected ? "black" : "white", // เปลี่ยนสีตัวอักษรเมื่อถูกเลือก
+      }}
+      onClick={onSelect} // เรียกฟังก์ชันเมื่อคลิก
+    >
+      <div style={styles.time}>{time}</div>
+      <img src={imageMap[status]} alt={status} style={styles.icon2} />
+      <div style={styles.statusText}>{statusLabel[status]}</div>
+    </div>
+  );
+};
+
+// คอมโพเนนต์หลัก
 const Forecast = () => {
-  const [selectedDate, setSelectedDate] = useState(""); // เก็บวันที่ที่เลือก
+  const weatherData = generateWeatherData();
+  const [selectedIndex, setSelectedIndex] = useState(null); // เก็บ index ที่ถูกเลือก
 
-  const handleDateChange = (event) => {
-    setSelectedDate(event.target.value); // อัปเดตวันที่เมื่อผู้ใช้เลือก
+  const handleSelect = (index) => {
+    setSelectedIndex(index); // อัปเดต index ที่ถูกเลือก
   };
 
   return (
     <div style={styles.container}>
-      <div style={styles.header}>Forecart Dashboard</div>
-      <div style={styles.dateContainer}>
-        <label htmlFor="date-picker" style={styles.dateLabel}>เลือกวันที่:</label>
-        <input
-          id="date-picker"
-          type="date"
-          value={selectedDate}
-          onChange={handleDateChange}
-          style={styles.dateInput}
-        />
+        <h2 style={styles.title}>10 Minute Forecast</h2>
+      <div id="forecastContainer" style={styles.scrollArea}>
+        {weatherData.map((item, index) => (
+          <WeatherCard 
+          key={index} 
+          {...item} 
+          isSelected={index === selectedIndex} // ตรวจสอบว่าอันนี้ถูกเลือกหรือไม่
+            onSelect={() => handleSelect(index)} // ส่งฟังก์ชันเลือกไปยัง WeatherCard
+          />
+        ))}
       </div>
-
-      <div style={styles.grid}>
-        {/* Temperature Section */}
-        <div style={styles.gridItem}>
-          <CardInfo header="Temperature" title="Temperature" value="24°" description="อุณหภูมิ: ต่ำ" />
-        </div>
-
-        {/* Humidity Section */}
-          <div style={styles.gridItem}>
-            <CardInfo header="Humidity" title="Humidity" value="50%" description="ความชื้น: สูง" />
-          </div>
-
-        {/* Status Section */}
-          <div style={styles.gridItem2}>
-            <WeatherStatus status="อากาศค่อนข้างเย็น" suggestion="มีโอกาสฝนตก" />
-          </div>
-
-        {/* Other Sections */}
-          <div style={styles.fullWidthItem}>
-            <ChartAirflow />
-          </div>
-          <div style={styles.fullWidthItem}>
-            <ChartHeatRadiation />
-          </div>
-        </div>
-      </div>
+    </div>
   );
 };
 
 const styles = {
-  container: {
-    padding: "24px",
-    fontFamily: "Arial, sans-serif",
-    height: "calc(100vh - 50px)", // ลดความสูงของ Dashboard
-    overflow: "auto",
-  },
-  header: {
-    fontWeight: "bold",
-    fontSize: "36px",
-    color: "#2D336B",
-  },
-  dateContainer: {
-    marginBottom: "16px",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-  },
-  dateLabel: {
-    fontSize: "26px",
-    color: "#000000",
-  },
-  dateInput: {
+  title: {
     fontSize: "20px",
-    padding: "4px 8px",
-    borderRadius: "4px",
-    outline: "none", // ลบกรอบเมื่อคลิก
-    backgroundColor: "#2d336b", // เพิ่มสีพื้นหลัง (ถ้าต้องการ)
-    color: "#f4f4f4", // กำหนดสีข้อความ
+    fontWeight: "600",
+    color: "#2D336B",
+    marginBottom: "1rem",
+    position: "sticky",
   },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-    gap: "16px",
-    marginTop: "16px",
-    marginBottom: "8px",
+  container: {
+    overflowX: "auto",
+    padding: "1.5rem 1rem",
   },
-  gridItem: {
-    backgroundColor: "#f8f9fa",
-    borderRadius: "8px",
-    padding: "16px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    color: "#000000", // เปลี่ยนสีฟอนต์
-    fontSize: "25px",
+  scrollArea: {
+    display: "flex",
+    gap: "1rem",
+    width: "max-content",
   },
-  gridItem2: {
-    backgroundColor: "#f8f9fa",
-    borderRadius: "8px",
-    padding: "16px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    color: "#000000",
-    fontSize: "25px",
+  card: {
+    backgroundColor: "#2D336B",
+    color: "white",
+    padding: "12px",
+    borderRadius: "80px",
+    minWidth: "20px",
+    width: "80px",
+    height: "150px",
+    textAlign: "center",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
   },
-  fullWidthItem: {
-    gridColumn: "span 3",
-    backgroundColor: "#f8f9fa",
-    borderRadius: "8px",
-    padding: "16px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    color: "#000000",
+  icon: {
+    width: "50px",
+    height: "50px",
+    objectFit: "contain",
+    margin: "6px auto",
+  },
+  time: {
+    fontSize: "12px",
+    marginBottom: "4px",
+    fontSize: "14px",
+    fontWeight: "bold",
+  },
+  statusText: {
+    fontSize: "16px",
+    marginTop: "2px",
+  },
+  iconContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon2: {
+    width: "90px",
+    height: "90px",
+    objectFit: "contain",
   },
 };
 

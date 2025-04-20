@@ -1,30 +1,62 @@
+/* App.css */
+
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+}
+
 .app-container {
-  display: grid;
-  grid-template-columns: 2fr 10fr !important;
-  height: 100vh;
-  width: 100vw;
-  background-image: url('/src/images/wallpaper2.png'); /* ใช้รูปภาพจากโฟลเดอร์ public */
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background-image: url("/src/images/wallpaper2.png"); /* ใส่ background */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
-  margin: 0;
-  padding: 0;
 }
 
 .sidebar {
-  color: white;
-  height: 100vh;
-  padding: 35px;
-  border-radius: 24px;
-  display: flex;
-  background-color: #2D336B;
+  width: 250px;
+  min-width: 250px;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard {
-  display: flex; /* ใช้ Flexbox */
-  justify-content: center; /* จัดให้อยู่ตรงกลางแนวนอน */
-  align-items: center; /* จัดให้อยู่ตรงกลางแนวตั้ง */
-  height: 100%; /* ให้ครอบคลุมความสูงของพื้นที่ */
-  padding: 10px;
+.content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background-color: rgba(255, 255, 255, 0.85);
+  margin: 16px;
+  border-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: unset;
+    box-shadow: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .content {
+    margin: 0;
+    padding: 16px;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 12px;
+  }
+
+  .sidebar {
+    display: none; /* ถ้าอยากซ่อนเมนูในจอเล็ก */
+  }
 }

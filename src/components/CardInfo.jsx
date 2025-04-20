@@ -1,16 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
+import WeatherStatus from "./WeatherStatus";
+import { colors } from "@mui/material";
 
-const CardInfo = ({ title, value, description, description2, description3, image, icons }) => {
+const CardInfo = ({
+  title,
+  value,
+  description,
+  description2,
+  description3,
+  image,
+  icons,
+  temperature,
+}) => {
   return (
     <div style={styles.card}>
-      {image && <img src={image} alt="Card Icon" style={styles.image} />} {/* แสดงรูปภาพถ้ามี */}
-      <h8 style={styles.title}>{title}</h8>
-      <p style={styles.value}>{value}</p>
-      <p style={styles.description}>{description}</p>
-      {description2 && <p style={styles.description2}>{description2}</p>} {/* แสดง description2 ถ้ามี */}
-      {description2 && <p style={styles.description3}>{description3}</p>}
-      {icons && (
+      {/* ถ้ามี temperature แสดง WeatherStatus, ถ้าไม่มี ค่อยแสดง image */}
+      {temperature ? (
+        <WeatherStatus temperature={temperature} />
+      ) : (
+        image && <img src={image} alt="Card Icon" style={styles.image} />
+      )}
+
+      {title?.trim() && <p style={styles.title}>{title}</p>}
+      {value?.trim() && <p style={styles.value}>{value}</p>}
+      {description?.trim() && <p style={styles.description}>{description}</p>}
+      {description2?.trim() && (
+        <p style={styles.description2}>{description2}</p>
+      )}
+      {description3?.trim() && (
+        <p style={styles.description3}>{description3}</p>
+      )}
+
+      {icons?.length > 0 && (
         <div style={styles.iconContainer}>
           {icons.map((item, index) => (
             <div key={index} style={styles.iconItem}>
@@ -27,66 +49,69 @@ const CardInfo = ({ title, value, description, description2, description3, image
 const styles = {
   card: {
     padding: "5px",
-    marginTop: "50px",
     width: "500px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "flex-start", // ช่วยให้เนื้อหาจัดจากด้านบน
-    gap: "8px", // ระยะห่างรวมระหว่างแต่ละบล็อก
+    justifyContent: "center",
+    gap: "8px",
   },
   image: {
-    width: "280px",
-    height: "280px",
-    marginBottom: "0px", // เอาระยะห่างใต้ออก
+    width: "400px",
+    height: "400px",
+    marginBottom: "0px",
+    marginBottom: "0px",
+    objectFit: "contain", // ป้องกันภาพบิด
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
-  
   iconContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "4px", // ลดระยะระหว่างแต่ละ icon ลง
-    marginTop: "0px", // ไม่ต้องเว้นจากด้านบน
+    justifyContent: "center",
+    gap: "4px",
+    marginTop: "0px",
   },
-  
   iconItem: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: "6px", // ใช้ gap แทน margin เพื่อระยะพอดี
+    gap: "6px",
+    width: "100%",
   },
-  
   icon: {
-    width: "20px",  // เล็กลงเล็กน้อย
-    height: "20px",
+    width: "30px",
+    height: "30px",
   },
-  
   iconText: {
-    fontSize: "18px",
+    fontSize: "24px",
+    fontWeight: "bold",
+    marginLeft: "10px",
     color: "black",
-    // ลบ marginLeft ออก ถ้าใช้ gap แล้ว
-    marginLeft: "0px",
   },
   title: {
     fontSize: "24px",
-    fontWeight: "regular",
+    fontWeight: "bold",
     marginBottom: "30px",
     color: "black",
   },
   value: {
     fontSize: "76px",
     color: "black",
-    margin: "4px 0",
+    margin: "1px 0",
   },
   description: {
     fontSize: "26px",
+    fontWeight: "bold",
     color: "black",
-    fontWeight: "regular",
     marginBottom: "2px",
   },
   description2: {
-    fontSize: "15px",
+    fontSize: "21px",
+    fontWeight: "bold",
     color: "black",
     marginTop: "2px",
   },
@@ -95,6 +120,17 @@ const styles = {
     color: "black",
     marginTop: "2px",
   },
+};
+
+CardInfo.propTypes = {
+  title: PropTypes.string,
+  value: PropTypes.string,
+  description: PropTypes.string,
+  description2: PropTypes.string,
+  description3: PropTypes.string,
+  image: PropTypes.string,
+  icons: PropTypes.array,
+  temperature: PropTypes.number,
 };
 
 export default CardInfo;
