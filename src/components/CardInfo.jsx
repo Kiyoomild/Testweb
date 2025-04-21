@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import WeatherStatus from "./WeatherStatus";
-import { colors } from "@mui/material";
 
 const CardInfo = ({
   title,
@@ -60,7 +59,7 @@ const styles = {
     width: "400px",
     height: "400px",
     marginBottom: "0px",
-    marginBottom: "0px",
+    // marginBottom: "0px",
     objectFit: "contain", // ป้องกันภาพบิด
     display: "block",
     marginLeft: "auto",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 // ฟังก์ชันกำหนดสถานะจากอุณหภูมิ
 const getWeatherStatus = (temp) => {
@@ -140,7 +140,7 @@ const styles = {
   time: {
     fontSize: "12px",
     marginBottom: "4px",
-    fontSize: "14px",
+    // fontSize: "14px",
     fontWeight: "bold",
   },
   statusText: {
