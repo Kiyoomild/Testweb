@@ -12,7 +12,7 @@ const generateWeatherData = () => {
   const data = [];
   const now = new Date();
 
-  for (let i = 0; i < 170; i += 10) {
+  for (let i = 0; i < 70; i += 10) {
     const time = new Date(now.getTime() + i * 60000);
     const hour = time.getHours().toString().padStart(2, "0");
     const minute = time.getMinutes().toString().padStart(2, "0");

@@ -4,7 +4,7 @@ import WeatherStatus from "./WeatherStatus";
 import Forecast from "./Forecast";
 
 // 👉 เพิ่ม Firebase
-import { database, ref, onValue } from "./firebase";
+//import { database, ref, onValue } from "./firebase";
 
 const Dashboard = () => {
     const [selectedDate, setSelectedDate] = useState("");
@@ -22,7 +22,7 @@ const Dashboard = () => {
     }, []);
 
     // 🔥 ใช้ Firebase Realtime Database เพื่อรับค่าอัปเดต
-    useEffect(() => {
+    {/*useEffect(() => {
         const sensorRef = ref(database, "sensor/data");
         const unsubscribe = onValue(sensorRef, (snapshot) => {
             const data = snapshot.val();
@@ -34,6 +34,7 @@ const Dashboard = () => {
 
         return () => unsubscribe(); // cleanup
     }, []);
+    */}
 
     return (
         <div style={styles.container}>

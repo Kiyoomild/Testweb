@@ -11,26 +11,30 @@ const CardInfo = ({
   image,
   icons,
   temperature,
+  unit, // เพิ่ม unit เช่น "°C", "°F", "%", "m/s"
 }) => {
   return (
     <div style={styles.card}>
-      {/* ถ้ามี temperature แสดง WeatherStatus, ถ้าไม่มี ค่อยแสดง image */}
-      {temperature ? (
+      {/* ถ้ามี temperature แสดง WeatherStatus */}
+      {typeof temperature === "number" ? (
         <WeatherStatus temperature={temperature} />
       ) : (
         image && <img src={image} alt="Card Icon" style={styles.image} />
       )}
 
+      {/* แสดง title, value, descriptions */}
       {title?.trim() && <p style={styles.title}>{title}</p>}
-      {value?.trim() && <p style={styles.value}>{value}</p>}
+      {value?.toString().trim() && (
+        <p style={styles.value}>
+          {value}
+          {unit && <span style={styles.unit}> {unit}</span>}
+        </p>
+      )}
       {description?.trim() && <p style={styles.description}>{description}</p>}
-      {description2?.trim() && (
-        <p style={styles.description2}>{description2}</p>
-      )}
-      {description3?.trim() && (
-        <p style={styles.description3}>{description3}</p>
-      )}
+      {description2?.trim() && <p style={styles.description2}>{description2}</p>}
+      {description3?.trim() && <p style={styles.description3}>{description3}</p>}
 
+      {/* แสดง icons ถ้ามี */}
       {icons?.length > 0 && (
         <div style={styles.iconContainer}>
           {icons.map((item, index) => (
@@ -58,9 +62,7 @@ const styles = {
   image: {
     width: "400px",
     height: "400px",
-    marginBottom: "0px",
-    // marginBottom: "0px",
-    objectFit: "contain", // ป้องกันภาพบิด
+    objectFit: "contain",
     display: "block",
     marginLeft: "auto",
     marginRight: "auto",
@@ -94,22 +96,28 @@ const styles = {
   title: {
     fontSize: "24px",
     fontWeight: "bold",
-    marginBottom: "30px",
+    marginBottom: "10px",
     color: "black",
   },
   value: {
-    fontSize: "76px",
+    fontSize: "60px",
+    fontWeight: "bold",
     color: "black",
-    margin: "1px 0",
+    margin: "5px 0",
+  },
+  unit: {
+    fontSize: "24px",
+    marginLeft: "5px",
+    color: "gray",
   },
   description: {
-    fontSize: "26px",
+    fontSize: "20px",
     fontWeight: "bold",
     color: "black",
     marginBottom: "2px",
   },
   description2: {
-    fontSize: "21px",
+    fontSize: "18px",
     fontWeight: "bold",
     color: "black",
     marginTop: "2px",
@@ -123,13 +131,14 @@ const styles = {
 
 CardInfo.propTypes = {
   title: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   description: PropTypes.string,
   description2: PropTypes.string,
   description3: PropTypes.string,
   image: PropTypes.string,
   icons: PropTypes.array,
   temperature: PropTypes.number,
+  unit: PropTypes.string, // เพิ่ม unit สำหรับค่าเช่น %, °C
 };
 
 export default CardInfo;
