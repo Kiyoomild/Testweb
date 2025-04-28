@@ -2,16 +2,23 @@ import React, { useEffect, useState } from "react";
 import CardInfo from "./CardInfo";
 import WeatherStatus from "./WeatherStatus";
 import Forecast from "./Forecast";
+import Notifications from "./Notifications"; 
 
 // 👉 เพิ่ม Firebase
-//import { database, ref, onValue } from "./firebase";
+// import { database, ref, onValue } from "./firebase";
 
 const Dashboard = () => {
     const [selectedDate, setSelectedDate] = useState("");
-    const [temperature, setTemperature] = useState(0);  // ค่าเริ่มต้น
-    const [humidity, setHumidity] = useState(0);        // ค่าเริ่มต้น
+    const [temperature, setTemperature] = useState(0);  
+    const [humidity, setHumidity] = useState(0);        
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedForecast, setSelectedForecast] = useState(null);  
+    const [currentTime, setCurrentTime] = useState(""); 
 
-    // ตั้งค่าเป็นวันที่ปัจจุบัน
+    // ฟังก์ชันดึงค่าปัจจุบัน
+    const getCurrentTemperature = () => 10; // สามารถเปลี่ยนเป็นการดึงจาก sensor หรือ API
+    const getCurrentHumidity = () => 20;
+
     useEffect(() => {
         const today = new Date();
         const day = String(today.getDate()).padStart(2, "0");
@@ -20,6 +27,62 @@ const Dashboard = () => {
         const formattedDate = `${day}/${month}/${year}`;
         setSelectedDate(formattedDate);
     }, []);
+
+    // อัปเดตข้อมูล mock ทุก 10 นาที
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const forecastData = {
+                temperature: getCurrentTemperature(),
+                humidity: getCurrentHumidity(),
+                time: new Date().toLocaleTimeString()
+            };
+            setTemperature(forecastData.temperature);  
+            setHumidity(forecastData.humidity);        
+            setCurrentTime(forecastData.time);         
+        }, 600000); 
+
+        return () => clearInterval(interval); 
+    }, []);
+
+    const handleSelectForecast = (forecast) => {
+        if (!forecast) {
+            // ถ้า forecast เป็น null = ไม่มีเลือก
+            setSelectedForecast(null);
+            setTemperature(20);        
+            setHumidity(87);           
+            setCurrentTime(new Date().toLocaleTimeString()); 
+        } else {
+            setSelectedForecast(forecast);
+            setTemperature(forecast.temperature); 
+            setHumidity(forecast.humidity);
+            setCurrentTime(forecast.time); 
+        }
+    };
+
+    useEffect(() => {
+        if (temperature > 30 || temperature < 20) {
+            setShowPopup(true);
+            const timer = setTimeout(() => {
+                setShowPopup(false); 
+            }, 5000);
+            return () => clearTimeout(timer); 
+        }
+    }, [temperature]);
+
+    // อัปเดตเวลา
+    useEffect(() => {
+        if (selectedForecast) {
+            setCurrentTime(selectedForecast.time);
+        } else {
+            const interval = setInterval(() => {
+                const now = new Date();
+                const time = now.toLocaleTimeString();
+                setCurrentTime(time);
+            }, 1000);
+    
+            return () => clearInterval(interval); 
+        }
+    }, [selectedForecast]);
 
     // 🔥 ใช้ Firebase Realtime Database เพื่อรับค่าอัปเดต
     {/*useEffect(() => {
@@ -33,8 +96,7 @@ const Dashboard = () => {
         });
 
         return () => unsubscribe(); // cleanup
-    }, []);
-    */}
+    }, []);*/}
 
     return (
         <div style={styles.container}>
@@ -47,11 +109,12 @@ const Dashboard = () => {
 
             <div style={styles.cardWrapper}>
                 <div style={styles.leftSection}>
+                    {/* แสดงข้อมูลจาก forecast หรือปัจจุบัน */}
                     <CardInfo
                         title="Classroom 05-0406"
                         value={`${temperature}°C`}
                         description="Normal"
-                        // description2={`High: 35°C Low: 27°C`}
+                        currentTime={currentTime} // ส่งเวลาปัจจุบัน
                     />
                 </div>
 
@@ -62,17 +125,18 @@ const Dashboard = () => {
                         </div>
                         <div style={styles.cardText}>
                             <CardInfo
-                                icons={[
-                                    { icon: "../src/images/raindrops.png", text: `${humidity}%` },
-                                    { icon: "../src/images/sun.png", text: "Low" },
-                                ]}
+                                icons={[{ icon: "../src/images/raindrops.png", text: `${humidity}%` }]}
                             />
                         </div>
                     </div>
                 </div>
             </div>
 
-            <Forecast />
+            {/* ส่งฟังก์ชัน setSelectedForecast ให้ Forecast */}
+            <Forecast onSelectForecast={handleSelectForecast} />
+
+            {/* ส่ง onClose ไปยัง Notifications */}
+            {showPopup && <Notifications onClose={() => setShowPopup(false)} />}
         </div>
     );
 };
@@ -159,6 +223,17 @@ const styles = {
         padding: "24px",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
         marginTop: "24px",
+    },
+    timeWrapper: {
+        marginTop: "10px", 
+        fontSize: "18px", 
+        color: "#2D336B",
+        textAlign: "center"
+    },
+    timeText: {
+        fontSize: "18px",
+        fontWeight: "bold",
+        color: "#2D336B"
     },
 };
 

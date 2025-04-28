@@ -17,7 +17,7 @@ const History = () => {
   };
 
   // จำลองการดึงข้อมูล
-  {/*const fetchWeatherData = async (date) => {
+  const fetchWeatherData = async (date) => {
     // แทนที่ด้วยการดึงจาก API หรือ Database จริง
     // สมมุติข้อมูล dummy
     const dummyData = {
@@ -39,12 +39,11 @@ const History = () => {
       fetchWeatherData(selectedDate);
     }
   }, [selectedDate]);
-  */}
+  
 
   return (
     <div style={styles.container}>
       <div style={styles.header}>History</div>
-
       <div style={styles.datePickerContainer}>
         <label htmlFor="datePicker" style={styles.label}>เลือกวันที่:</label>
         <input
@@ -55,7 +54,6 @@ const History = () => {
           style={styles.datePicker}
         />
       </div>
-
       {selectedDate && (
         <>
           <div style={styles.dateText}>วันที่: {formatDate(selectedDate)}</div>

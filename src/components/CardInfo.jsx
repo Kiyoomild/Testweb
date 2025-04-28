@@ -2,16 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import WeatherStatus from "./WeatherStatus";
 
-const CardInfo = ({
-  title,
-  value,
-  description,
-  description2,
-  description3,
-  image,
-  icons,
-  temperature,
-  unit, // เพิ่ม unit เช่น "°C", "°F", "%", "m/s"
+const CardInfo = ({ title, value, description, description2,  description3, 
+  image, icons, temperature, unit, currentTime, // เพิ่ม unit เช่น "°C", "°F", "%", "m/s"
 }) => {
   return (
     <div style={styles.card}>
@@ -22,8 +14,14 @@ const CardInfo = ({
         image && <img src={image} alt="Card Icon" style={styles.image} />
       )}
 
+      
+
       {/* แสดง title, value, descriptions */}
       {title?.trim() && <p style={styles.title}>{title}</p>}
+      {/* แสดงเวลาปัจจุบัน */}
+      {currentTime && (
+        <p style={styles.currentTime}>{currentTime}</p>
+      )}
       {value?.toString().trim() && (
         <p style={styles.value}>
           {value}
@@ -33,6 +31,8 @@ const CardInfo = ({
       {description?.trim() && <p style={styles.description}>{description}</p>}
       {description2?.trim() && <p style={styles.description2}>{description2}</p>}
       {description3?.trim() && <p style={styles.description3}>{description3}</p>}
+
+      
 
       {/* แสดง icons ถ้ามี */}
       {icons?.length > 0 && (
@@ -127,6 +127,12 @@ const styles = {
     color: "black",
     marginTop: "2px",
   },
+  currentTime: {
+    fontSize: "22px",
+    color: "black",
+    fontWeight: "bold",
+    marginTop: "10px",
+  },
 };
 
 CardInfo.propTypes = {
@@ -139,6 +145,7 @@ CardInfo.propTypes = {
   icons: PropTypes.array,
   temperature: PropTypes.number,
   unit: PropTypes.string, // เพิ่ม unit สำหรับค่าเช่น %, °C
+  currentTime: PropTypes.string, // รับค่าเวลาปัจจุบัน
 };
 
 export default CardInfo;

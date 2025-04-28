@@ -24,37 +24,6 @@ const Sidebar = () => {
           <img src="../src/images/home.png" style={styles.icon} />
           <span>Dashboard</span>
         </li>
-
-        <li
-          style={selected === "History" ? styles.selectedItem : styles.listItem}
-          onClick={() => handleSelect("History", "/history")}
-        >
-          <img src="../src/images/clock.png" style={styles.icon} />
-          <span>History</span>
-        </li>
-
-        <li
-          style={selected === "Notifications" ? styles.selectedItem : styles.listItem}
-          onClick={() => handleSelect("Notifications", "/notifications")}
-        >
-          <img src="../src/images/bell.png" style={styles.icon} />
-          <span>Notifications</span>
-        </li>
-
-      </ul>
-      <ul style={styles.footerList}>
-        <li
-          style={selected === "Settings" ? styles.selectedItem : styles.listItem}
-          onClick={() => handleSelect("Settings", "/settings")}
-        >
-          <span>Settings</span>
-        </li>
-        <li
-          style={selected === "Help" ? styles.selectedItem : styles.listItem}
-          onClick={() => handleSelect("Help", "/help")}
-        >
-          <span>Help</span>
-        </li>
       </ul>
     </div>
   );
