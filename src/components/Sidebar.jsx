@@ -33,6 +33,7 @@ const Sidebar = () => {
 const styles = {
   sidebar: {
     width: 240,
+    // height: "100vh",
     padding: '15px',
     margin: '25px',
     borderRadius: '15px',

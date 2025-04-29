@@ -40,8 +40,8 @@ const styles = {
     marginRight: "16px", // ระยะห่างระหว่างรูปภาพกับข้อความ
   },
   icon: {
-    width: "250px", // ขนาดของรูปภาพ
-    height: "250px",
+    width: "200px", // ขนาดของรูปภาพ
+    height: "200px",
   },
 };
 

@@ -60,8 +60,8 @@ const styles = {
     gap: "8px",
   },
   image: {
-    width: "400px",
-    height: "400px",
+    width: "200px",
+    height: "200px",
     objectFit: "contain",
     display: "block",
     marginLeft: "auto",
