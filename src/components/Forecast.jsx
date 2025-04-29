@@ -1,87 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-<<<<<<< Updated upstream
-{/*}
-// ฟังก์ชันกำหนดสถานะจากอุณหภูมิ
-const getWeatherStatus = (temp) => {
-  if (temp < 23) return { status: "cold" };
-  if (temp <= 27) return { status: "warm" };
-  return { status: "hot" };
-};
-
-
-// สร้างข้อมูลทุก 10 นาที (7 ช่วง) ทดลองแบบ fixed ข้อมูล
-const generateWeatherData = () => {
-  return [
-    { time: "10:00", status: "warm", temperature: 27, humidity: 50 },
-    { time: "10:10", status: "warm", temperature: 26, humidity: 52 },
-    { time: "10:20", status: "cold", temperature: 22, humidity: 60 },
-    { time: "10:30", status: "hot", temperature: 32, humidity: 48 },
-    { time: "10:40", status: "hot", temperature: 30, humidity: 55 },
-    { time: "10:50", status: "cold", temperature: 23, humidity: 63 },
-    { time: "11:00", status: "warm", temperature: 26, humidity: 52 },
-  ];
-};
-*/}
-
-
-// สร้างข้อมูลทุก 10 นาที (7 ช่วง) 
-const generateWeatherData = () => {
-  const data = [];
-  const now = new Date();
-
-  const weatherStatuses = ["hot", "warm", "cold"]; // กำหนดสถานะที่จะใช้
-
-  for (let i = 0; i < 70; i += 10) {
-    const time = new Date(now.getTime() + i * 60000);
-    const hour = time.getHours().toString().padStart(2, "0");
-    const minute = time.getMinutes().toString().padStart(2, "0");
-
-    const temp = Math.floor(Math.random() * 15) + 20; // 20-35
-
-    // กำหนดสถานะตามอุณหภูมิ
-    let status;
-    if (temp >= 30) {
-      status = "hot";  // หากอุณหภูมิ 30 ขึ้นไป
-    } else if (temp >= 24) {
-      status = "warm"; // หากอุณหภูมิ 25-29
-    } else {
-      status = "cold"; // หากอุณหภูมิต่ำกว่า 25
-    }
-
-    data.push({
-      time: `${hour}:${minute}`,
-      status,
-    });
-  }
-
-  return data;
-};
-
-
-
-// แผนที่สถานะ -> รูปภาพ
-const WeatherImage = ({ status }) => {
-  return (
-    <div style={styles.iconContainer}>
-      {status === "Hot" && (
-        <img src="../src/images/hot.png" alt="Hot" style={styles.icon} />
-      )}
-      {status === "Cold" && (
-        <img src="../src/images/cold.png" alt="Cold" style={styles.icon} />
-      )}
-      {status === "Warm" && (
-        <img src="../src/images/happy.png" alt="Warm" style={styles.icon} />
-      )}
-    </div>
-  );
-};
-
-// การ์ดแสดงผล
-const WeatherCard = ({ time, status, isSelected, onSelect  }) => {
-=======
 const WeatherCard = ({ time, status, predictedTemperature, isSelected, onSelect }) => {
->>>>>>> Stashed changes
   const statusLabel = {
     hot: "Hot",
     cold: "Cold",
@@ -113,19 +32,6 @@ const WeatherCard = ({ time, status, predictedTemperature, isSelected, onSelect 
   );
 };
 
-<<<<<<< Updated upstream
-
-// คอมโพเนนต์หลัก
-const Forecast = ({ onSelectForecast }) => {
-  const weatherData = generateWeatherData();
-  const [selectedIndex, setSelectedIndex] = useState(null);
-
-  const handleSelect = (index) => {
-    if (selectedIndex === index) {
-      // ถ้ากดซ้ำ index เดิม
-      setSelectedIndex(null); // รีเซ็ต index
-      onSelectForecast(null); // บอก Dashboard ว่าไม่มี forecast ที่เลือก
-=======
 const Forecast = ({ onSelectForecast }) => {
   const [weatherData, setWeatherData] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -200,20 +106,13 @@ const Forecast = ({ onSelectForecast }) => {
     if (selectedIndex === index) {
       setSelectedIndex(null);
       onSelectForecast(null);
->>>>>>> Stashed changes
     } else {
       setSelectedIndex(index);
       const selected = weatherData[index];
       onSelectForecast({
-<<<<<<< Updated upstream
-        temperature: selected.temperature,
-        humidity: selected.humidity,
-        time: selected.time,
-=======
         temperature: selected?.predicted_temperature,
         time: getForecastTime(),
         status: selected?.status,
->>>>>>> Stashed changes
       });
     }
   };
@@ -225,14 +124,9 @@ const Forecast = ({ onSelectForecast }) => {
         {weatherData.map((item, index) => (
           <WeatherCard
             key={index}
-<<<<<<< Updated upstream
-            time={item.time}
-            status={item.status}
-=======
             time={getForecastTime()}
             status={item.status}
             predictedTemperature={item.predicted_temperature}
->>>>>>> Stashed changes
             isSelected={index === selectedIndex}
             onSelect={() => handleSelect(index)}
           />

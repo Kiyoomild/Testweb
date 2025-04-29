@@ -11,76 +11,6 @@ const Notifications = ({ onClose }) => {
 
   //เป็นค่าที่สมมติขึ้นมา
   useEffect(() => {
-<<<<<<< Updated upstream
-    const temp = 25;
-    const hum = 50;
-    const now = new Date();
-
-    const date = now.toLocaleDateString();
-    const time = now.toLocaleTimeString();
-
-    setTemperature(temp);
-    setHumidity(hum);
-    setNotificationTime({ date, time });
-
-    let message = "";
-    if (temp < 21) {
-      setStatus("Cold");
-      message += "⚠️ อุณหภูมิต่ำเกินไป";
-    } else if (temp > 31) {
-      setStatus("Hot");
-      message += "⚠️ อุณหภูมิสูงเกินไป";
-    }
-
-    if (hum < 48) {
-      message += " | ความชื้นต่ำเกินไป";
-    } else if (hum > 67) {
-      message += " | ความชื้นสูงเกินไป";
-    }
-
-    setNotificationMessage(message);
-  }, []);
-
-
-  {/* การเชื่อมต่อกับ Firebase Realtime Database
-
-    useEffect(() => {
-  const unsubscribe = onSnapshot(doc(db, "your-collection", "your-doc-id"), (doc) => {
-    if (doc.exists()) {
-      const data = doc.data();
-      setTemperature(data.temperature);
-      setHumidity(data.humidity);
-
-      const now = new Date();
-      setNotificationTime({ 
-        date: now.toLocaleDateString(), 
-        time: now.toLocaleTimeString() 
-      });
-
-      let message = "";
-      if (data.temperature < 22) {
-        setStatus("Cold");
-        message += "⚠️ อุณหภูมิต่ำเกินไป";
-      } else if (data.temperature > 28) {
-        setStatus("Hot");
-        message += "⚠️ อุณหภูมิสูงเกินไป";
-      }
-
-      if (data.humidity < 48) {
-        message += " | ความชื้นต่ำเกินไป";
-      } else if (data.humidity > 67) {
-        message += " | ความชื้นสูงเกินไป";
-      }
-
-      setNotificationMessage(message);
-    }
-  });
-
-  return () => unsubscribe(); // ปิดการฟังเมื่อ component ถูก unmount
-}, []);
-
-*/}
-=======
     const fetchPredictedData = async () => {
       try {
         const response = await fetch("https://dataset-sensor-cpe495-b1b0706afa9f.herokuapp.com/weather"); // เปลี่ยนเป็น API ของคุณ
@@ -123,7 +53,6 @@ const Notifications = ({ onClose }) => {
 
     return () => clearInterval(intervalId); // cleanup ตอนออก
   }, []);
->>>>>>> Stashed changes
 
   return (
     <div style={styles.overlay}>
@@ -141,11 +70,7 @@ const Notifications = ({ onClose }) => {
                 <p style={styles.notificationMessage}>{notificationMessage}</p>
                 <div style={styles.values}>
                   <p>Temperature: {temperature}°C</p>
-<<<<<<< Updated upstream
-                  <p>Humidity: {humidity}%</p>
-=======
                   {/* <p>Humidity: {humidity}%</p> */}
->>>>>>> Stashed changes
                 </div>
               </div>
               {status === "Hot" && <img src={Hot} alt="Hot" style={styles.icon} />}
@@ -153,9 +78,6 @@ const Notifications = ({ onClose }) => {
             </div>
           </div>
         ) : (
-<<<<<<< Updated upstream
-          <p style={{ color: "#555" }}>Notifications</p>
-=======
           <div>
             <p style={{ color: "#555" }}>
               Temperature: {temperature.toFixed(2)}°C
@@ -170,7 +92,6 @@ const Notifications = ({ onClose }) => {
 
           </div>
 
->>>>>>> Stashed changes
         )}
         <button onClick={onClose} style={styles.closeButton}>Close</button>
       </div>

@@ -3,13 +3,7 @@ import CardInfo from "./CardInfo";
 import WeatherStatus from "./WeatherStatus";
 import Forecast from "./Forecast";
 import Notifications from "./Notifications"; 
-<<<<<<< Updated upstream
-
-// 👉 เพิ่ม Firebase
-// import { database, ref, onValue } from "./firebase";
-=======
 import { database, ref, onValue } from "./firebase";  // Import Firebase
->>>>>>> Stashed changes
 
 const Dashboard = () => {
     const [selectedDate, setSelectedDate] = useState("");
@@ -18,13 +12,6 @@ const Dashboard = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [selectedForecast, setSelectedForecast] = useState(null);  
     const [currentTime, setCurrentTime] = useState(""); 
-<<<<<<< Updated upstream
-
-    // ฟังก์ชันดึงค่าปัจจุบัน
-    const getCurrentTemperature = () => 10; // สามารถเปลี่ยนเป็นการดึงจาก sensor หรือ API
-    const getCurrentHumidity = () => 20;
-=======
->>>>>>> Stashed changes
 
     useEffect(() => {
         const today = new Date();
@@ -51,55 +38,9 @@ const Dashboard = () => {
         return () => clearInterval(interval); 
     }, []);
 
-<<<<<<< Updated upstream
-    const handleSelectForecast = (forecast) => {
-        if (!forecast) {
-            // ถ้า forecast เป็น null = ไม่มีเลือก
-            setSelectedForecast(null);
-            setTemperature(20);        
-            setHumidity(87);           
-            setCurrentTime(new Date().toLocaleTimeString()); 
-        } else {
-            setSelectedForecast(forecast);
-            setTemperature(forecast.temperature); 
-            setHumidity(forecast.humidity);
-            setCurrentTime(forecast.time); 
-        }
-    };
-
-    useEffect(() => {
-        if (temperature > 30 || temperature < 20) {
-            setShowPopup(true);
-            const timer = setTimeout(() => {
-                setShowPopup(false); 
-            }, 5000);
-            return () => clearTimeout(timer); 
-        }
-    }, [temperature]);
-
-    // อัปเดตเวลา
-    useEffect(() => {
-        if (selectedForecast) {
-            setCurrentTime(selectedForecast.time);
-        } else {
-            const interval = setInterval(() => {
-                const now = new Date();
-                const time = now.toLocaleTimeString();
-                setCurrentTime(time);
-            }, 1000);
-    
-            return () => clearInterval(interval); 
-        }
-    }, [selectedForecast]);
-
-    // 🔥 ใช้ Firebase Realtime Database เพื่อรับค่าอัปเดต
-    {/*useEffect(() => {
-        const sensorRef = ref(database, "sensor/data");
-=======
     // Function to get current temperature and humidity from Firebase
     useEffect(() => {
         const sensorRef = ref(database, "sensor/data");  // Firebase reference path
->>>>>>> Stashed changes
         const unsubscribe = onValue(sensorRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -108,10 +49,6 @@ const Dashboard = () => {
             }
         });
 
-<<<<<<< Updated upstream
-        return () => unsubscribe(); // cleanup
-    }, []);*/}
-=======
         return () => unsubscribe(); // Cleanup Firebase listener
     }, []);
 
@@ -152,7 +89,6 @@ const Dashboard = () => {
             return () => clearInterval(interval); 
         }
     }, [selectedForecast]);
->>>>>>> Stashed changes
 
     return (
         <div style={styles.container}>
@@ -169,12 +105,7 @@ const Dashboard = () => {
                     <CardInfo
                         title="Classroom 05-0406"
                         value={`${temperature}°C`}
-<<<<<<< Updated upstream
-                        description="Normal"
-                        currentTime={currentTime} // ส่งเวลาปัจจุบัน
-=======
                         currentTime={currentTime} // Send current time
->>>>>>> Stashed changes
                     />
                 </div>
 
@@ -192,15 +123,8 @@ const Dashboard = () => {
                 </div>
             </div>
 
-<<<<<<< Updated upstream
-            {/* ส่งฟังก์ชัน setSelectedForecast ให้ Forecast */}
-            <Forecast onSelectForecast={handleSelectForecast} />
-
-            {/* ส่ง onClose ไปยัง Notifications */}
-=======
             <Forecast/>
 
->>>>>>> Stashed changes
             {showPopup && <Notifications onClose={() => setShowPopup(false)} />}
         </div>
     );
